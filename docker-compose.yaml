@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api:
+    depends_on:
+      - db
+      - flyway
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: pass
+    ports: # TODO: remove later
+      - 5432:5432
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://db:5432/postgres -schemas=public -user=postgres -password=pass -connectRetries=60 migrate
+    volumes:
+      - .:/flyway/sql
+    depends_on:
+      - db
+  
