@@ -6,11 +6,31 @@
     <title>PeDA-Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="login.css" type="text/css" media="1">
     <script src="login.js"></script>
+
+    <style>
+        .textfield
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            margin: auto;
+            width: 30%;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+
+            background-color: #BFD7EA;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body>
-    <form onsubmit="checkLogin()">
+<body onload="load()">
         <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
@@ -42,17 +62,25 @@
             </svg>
             Ergebnisse
         </a>
+        <a class="navbar-item btn" onclick="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+            </svg>
+            Logout
+        </a>
     </nav>
-        <div class="form-group">
+    <div class="textfield">
+        <div class="text-center form-group">
             <label for="UsernameField">Benutzername</label>
             <input type="username" class="form-control" id="usernameField" aria-describedby="username" placeholder="Benutzername">
         </div>
-        <div class="form-group">
+        <div class="text-center form-group">
             <label for="passwordField">Passwort</label>
             <input type="password" class="form-control" id="passwordField" placeholder="Passwort">
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <button class="text-center btn btn-primary" onclick="checkLogin()">Login</button>
+    </div>
 </body>
 </html>
