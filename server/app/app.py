@@ -57,7 +57,7 @@ def getWebsiteLoginJS():
 @app.route("/user/check", methods= ['POST'])
 def checkUser():
     if request.method == 'POST':
-        logging.debug(request.values)
+        logging.error(request.values)
 
         username = str(request.values.get("username"))
         password = decrypt(str(request.values.get("password")))
@@ -75,5 +75,5 @@ def decrypt(text) -> str:
     iv = "1020304050607080"
     
     cipher = AES.new(derived_key, AES.MODE_CBC, iv.encode('utf-8'))
-    return str(unpad(cipher.decrypt(enc),16))
+    return unpad(cipher.decrypt(enc),16).decode('utf-8')
 

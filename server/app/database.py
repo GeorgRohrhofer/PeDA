@@ -32,7 +32,6 @@ def checkUserOverUsername(username, password):
     for row in myCursor.fetchall():
         counter.append(dict(zip(colums, row)))
 
-
     if len(counter) == 0:
         return {"isValid" : False}
     

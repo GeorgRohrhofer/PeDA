@@ -1,21 +1,30 @@
-var script = document.createElement('script');
-script.src = 'https://code.jquery.com/jquery-3.7.1.min.js'; // Check https://jquery.com/ for the current version
-document.getElementsByTagName('head')[0].appendChild(script);
-
-function load()
-{
-    $("passwordField").on('keyup', function (e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
+$(document).ready(function(){
+    $("#passwordField").keydown(function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+    if (code===13) {
             checkLogin();
         }
     });
-}
+
+    $("#usernameField").keydown(function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+    if (code===13) {
+            checkLogin();
+        }
+    });
+
+    $("#error").hide();
+});
 
 
 function checkLogin()
 {
-    var username = $("usernameField").val();
-    var password = $("passwordField").val();
+    var username = $("#usernameField").val();
+    var password = $("#passwordField").val();
+
+    if (username === "" || password === ""){
+        return;
+    }
 
     var key = CryptoJS.enc.Base64.parse("5DByrBheits6gUD4FK7RwZp8QjFMRYd2");
     var iv = CryptoJS.enc.Utf8.parse("1020304050607080");
@@ -25,9 +34,17 @@ function checkLogin()
     console.log(passwordEncrypted);
     
     $.post("/user/check", {"username": username, "password" : passwordEncrypted}, function(data){
-
-        document.cookie = "loginTokenPeDA=" + passwordEncrypted + "; expires=" + new Date(new Date().getTime() + 15 * 60000) + "";
-        window.location.href = "/index.html";
+        console.log(data.isValid);
+        if (data.isValid)
+        {
+            document.cookie = "loginTokenPeDA=" + passwordEncrypted + "; expires=" + new Date(new Date().getTime() + 15 * 60000) + "";
+            window.location.href = "/index.html";
+        }
+        else
+        {
+            $("#error").text("Benutzername oder Password falsch");
+            $("#error").show();
+        }
     });
 }
 
